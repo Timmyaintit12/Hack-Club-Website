@@ -1,5 +1,6 @@
-// Make the DIV element draggable:
-dragElement(document.getElementById("window"));
+// Make the DIV elements draggable:
+dragElement(document.getElementById("welcome"));
+dragElement(document.getElementById("appyapp"));
 
 // Step 1: Define a function called `dragElement` that makes an HTML element draggable.
 function dragElement(element) {
@@ -52,3 +53,136 @@ function dragElement(element) {
     document.onmousemove = null;
   }
 }
+
+var welcomeScreen = document.querySelector("#welcome");
+
+var welcomeScreenClose = document.querySelector("#welcomeclose");
+var welcomeScreenOpen = document.querySelector("#welcomeopen");
+
+var appyAppScreen = document.querySelector("#appyapp");
+
+var appyAppScreenClose = document.querySelector("#appyappclose");
+
+var topBar = document.querySelector("#topbar");
+var biggestIndex = 1;
+
+function closeWindow(element) {
+    element.style.display = "none";
+}
+
+function openWindow(element) {
+    element.style.display = "block";
+    biggestIndex++;
+    element.style.zIndex = biggestIndex;
+    topBar.style.zIndex = biggestIndex + 1;
+}
+
+function handleWindowTap(element) {
+    biggestIndex++;
+    element.style.zIndex = biggestIndex;
+    topBar.style.zIndex = biggestIndex + 1;
+}
+
+welcomeScreen.addEventListener("mousedown", function() {
+  handleWindowTap(welcomeScreen);
+});
+
+appyAppScreen.addEventListener("mousedown", function() {
+  handleWindowTap(appyAppScreen);
+});
+
+welcomeScreenClose.addEventListener("click", function() {
+  closeWindow(welcomeScreen);
+});
+
+welcomeScreenOpen.addEventListener("click", function() {
+  openWindow(welcomeScreen);
+});
+
+appyAppScreenClose.addEventListener("click", function() {
+  closeWindow(appyAppScreen);
+});
+
+var selectedIcon = undefined;
+
+function selectIcon(element) {
+  element.classList.add("selected");
+  selectedIcon = element
+} 
+
+function deselectIcon(element) {
+  element.classList.remove("selected");
+  selectedIcon = undefined;
+} 
+
+function handleIconTap(element) {
+    if (element.classList.contains("selected")) { 
+        deselectIcon(element)
+        openWindow(appyAppScreen)
+    } else {
+        selectIcon(element)
+    }
+}
+
+document.querySelector("#appyappicon").addEventListener("click", function() {
+  handleIconTap(this);
+});
+
+var content = [
+  {
+    title: "Welcome",
+    date: "08/09/2026",
+    content: `
+      <h2>Welcome to Appy App</h2>
+      <p>This is where notes are stored</p>
+    `
+  },
+  {
+    title: "First Entry",
+    date: "09/08/2026",
+    content: `
+      <h2>First Entry</h2>
+      <p>Blah Blah Blah</p>
+    `
+  },
+  {
+    title: "Ideas",
+    date: "09/08/2026",
+    content: `
+      <h2>Ideas</h2>
+      <p>Ideas and notes</p>
+    `
+  }
+];
+
+function setAppyAppContent(index) {
+  var note = content[index];
+  var contentDiv = document.querySelector("#appyappcontent");
+  contentDiv.innerHTML = note.content;
+}
+
+function addToSideBar(index) {
+  var sidebar = document.querySelector("#appyappsidebar");
+  var note = content[index];
+
+  var newDiv = document.createElement("div");
+  newDiv.style.cursor = "pointer";
+  newDiv.style.margin = "14px";
+
+  newDiv.innerHTML = `
+    <p style="margin: 0px;">${note.title}</p>
+    <p style="margin: 0px;">${note.date}</p>
+  `;
+
+  newDiv.addEventListener("click", function() {
+    setAppyAppContent(index);
+  });
+
+  sidebar.appendChild(newDiv);
+}
+
+for (var i = 0; i < content.length; i++) {
+  addToSideBar(i)
+}
+
+setAppyAppContent(0);
