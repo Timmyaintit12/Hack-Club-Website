@@ -2,7 +2,7 @@
 <html>
 
   <body style="font-family: Helvetica, Noto Sans, sans-serif; background-image: url(static/images/lake_image.png);">
-      <div id="welcome" style="position: absolute; width: 98.7%; display: flex; backdrop-filter: blur(10px); background-color: rgba(0, 0, 0, 0.25); color: #fff; justify-content: space-between;">
+      <div style="position: absolute; width: 98.7%; display: flex; backdrop-filter: blur(10px); background-color: rgba(0, 0, 0, 0.25); color: #fff; justify-content: space-between;">
         <p style="margin-left: 16px;">
           Website
         </p>
@@ -10,11 +10,11 @@
           Time
         </p>
       </div>
-      <div style="border: solid; margin: 14px; width: 700px; border-radius: 16px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #c9ffcf;">
+      <div id="window" style="border: solid; width: 700px; border-radius: 16px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #c9ffcf; user-select: none; -webkit-user-drag: none;">
         <h1 style = "margin: 14px; padding:4px; background-color: #000; color: #fff;">Welcome to my OS</h1>
         <h2 style = "margin: 14px">Introduction</h2>
         <p style = "color: red; margin: 14px;">Hello world!</p>
-        <img style = "border-radius: 16px; object-fit: cover; margin: 14px;" src ="static/images/code_image.png">
+        <img draggable="false" style = "border-radius: 16px; object-fit: cover; margin: 14px;" src ="static/images/code_image.png">
         </br>
         <a style = "margin: 14px; padding: 4px;" href = "https://google.com">Google</a>
     </div>
