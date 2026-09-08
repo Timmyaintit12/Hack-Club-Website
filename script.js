@@ -1,6 +1,7 @@
 // Make the DIV elements draggable:
 dragElement(document.getElementById("welcome"));
 dragElement(document.getElementById("appyapp"));
+dragElement(document.getElementById("todoapp"));
 
 // Step 1: Define a function called `dragElement` that makes an HTML element draggable.
 function dragElement(element) {
@@ -115,17 +116,21 @@ function deselectIcon(element) {
   selectedIcon = undefined;
 } 
 
-function handleIconTap(element) {
-    if (element.classList.contains("selected")) { 
-        deselectIcon(element)
-        openWindow(appyAppScreen)
+function handleIconTap(iconElement, windowElement) {
+    if (iconElement.classList.contains("selected")) {
+        deselectIcon(iconElement)
+        openWindow(windowElement)
     } else {
-        selectIcon(element)
+        selectIcon(iconElement)
     }
 }
 
 document.querySelector("#appyappicon").addEventListener("click", function() {
-  handleIconTap(this);
+  handleIconTap(this, appyAppScreen);
+});
+
+document.querySelector("#todoappicon").addEventListener("click", function() {
+  handleIconTap(this, todoAppScreen);
 });
 
 var content = [
@@ -186,3 +191,87 @@ for (var i = 0; i < content.length; i++) {
 }
 
 setAppyAppContent(0);
+
+// ----- To-Do List app -----
+
+var todoAppScreen = document.querySelector("#todoapp");
+var todoAppScreenClose = document.querySelector("#todoappclose");
+var todoInput = document.querySelector("#todoinput");
+var todoAddBtn = document.querySelector("#todoaddbtn");
+var todoListDiv = document.querySelector("#todolist");
+
+var todos = [];
+
+function renderTodos() {
+  todoListDiv.innerHTML = "";
+
+  if (todos.length === 0) {
+    var emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No tasks yet - add one above.";
+    emptyMessage.style.opacity = "0.6";
+    todoListDiv.appendChild(emptyMessage);
+    return;
+  }
+
+  todos.forEach(function(todo, index) {
+    var row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.alignItems = "center";
+    row.style.gap = "8px";
+    row.style.marginBottom = "6px";
+
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.done;
+    checkbox.addEventListener("change", function() {
+      todo.done = checkbox.checked;
+      renderTodos();
+    });
+
+    var label = document.createElement("span");
+    label.textContent = todo.text;
+    label.style.flex = "1";
+    if (todo.done) {
+      label.style.textDecoration = "line-through";
+      label.style.opacity = "0.6";
+    }
+
+    var deleteBtn = document.createElement("span");
+    deleteBtn.textContent = "x";
+    deleteBtn.style.cursor = "pointer";
+    deleteBtn.style.color = "#900";
+    deleteBtn.addEventListener("click", function() {
+      todos.splice(index, 1);
+      renderTodos();
+    });
+
+    row.appendChild(checkbox);
+    row.appendChild(label);
+    row.appendChild(deleteBtn);
+    todoListDiv.appendChild(row);
+  });
+}
+
+function addTodo() {
+  var text = todoInput.value.trim();
+  if (text === "") return;
+  todos.push({ text: text, done: false });
+  todoInput.value = "";
+  renderTodos();
+}
+
+todoAddBtn.addEventListener("click", addTodo);
+
+todoInput.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") addTodo();
+});
+
+todoAppScreen.addEventListener("mousedown", function() {
+  handleWindowTap(todoAppScreen);
+});
+
+todoAppScreenClose.addEventListener("click", function() {
+  closeWindow(todoAppScreen);
+});
+
+renderTodos();
