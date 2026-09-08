@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-  <body style="background-color: #c9ffcf; font-family: Helvetica, Noto Sans, sans-serif;">
-    <h1>Welcome to my OS</h1>
-    <h2>Introduction</h2>
-    <p style = "color: red">Hello world!</p>
-    <img style = "border-radius: 16px; object-fit: cover;" src ="static/images/code_image.png">
-    <a href = "https://google.com">Google</a>
+  <body style="font-family: Helvetica, Noto Sans, sans-serif; background-image: url(static/images/lake_image.png);">
+      <div style="position: absolute; width: 98.7%; display: flex; backdrop-filter: blur(10px); background-color: rgba(0, 0, 0, 0.25); color: #fff; justify-content: space-between;">
+        <p style="margin-left: 16px;">
+          Website
+        </p>
+        <p style="margin-right: 16px;" id = "timeElement">
+          Time
+        </p>
+      </div>
+      <div style="border: solid; margin: 14px; width: 700px; border-radius: 16px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #c9ffcf;">
+        <h1 style = "margin: 14px; padding:4px; background-color: #000; color: #fff;">Welcome to my OS</h1>
+        <h2 style = "margin: 14px">Introduction</h2>
+        <p style = "color: red; margin: 14px;">Hello world!</p>
+        <img style = "border-radius: 16px; object-fit: cover; margin: 14px;" src ="static/images/code_image.png">
+        </br>
+        <a style = "margin: 14px; padding: 4px;" href = "https://google.com">Google</a>
+    </div>
+    <script>
+      function updateTime(){
+        var currentTime = new Date().toLocaleString();
+        var timeText = document.querySelector("#timeElement");
+        timeText.innerHTML = currentTime
+      }
+      setInterval(updateTime, 1000)
+    </script>
   </body>
 
 </html>
