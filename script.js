@@ -14,7 +14,7 @@ function dragElement(element) {
   // Step 3: Check if there is a special header element associated with the draggable element.
   if (document.getElementById(element.id + "header")) {
     // Step 4: If present, assign the `dragMouseDown` function to the header's `onmousedown` event.
-    // This allows you to drag the window around by its header.
+    // This allows you to drag the window around by its header (the full top bar).
     document.getElementById(element.id + "header").onmousedown = startDragging;
   } else {
     // Step 5: If not present, assign the function directly to the draggable element's `onmousedown` event.
@@ -96,12 +96,23 @@ welcomeScreenClose.addEventListener("click", function() {
   closeWindow(welcomeScreen);
 });
 
+// Stop the close button's mousedown from bubbling up to the header,
+// which is what triggers dragging. Without this, pressing "Close"
+// would start a drag instead of (or as well as) closing the window.
+welcomeScreenClose.addEventListener("mousedown", function(e) {
+  e.stopPropagation();
+});
+
 welcomeScreenOpen.addEventListener("click", function() {
   openWindow(welcomeScreen);
 });
 
 appyAppScreenClose.addEventListener("click", function() {
   closeWindow(appyAppScreen);
+});
+
+appyAppScreenClose.addEventListener("mousedown", function(e) {
+  e.stopPropagation();
 });
 
 var selectedIcon = undefined;
@@ -272,6 +283,10 @@ todoAppScreen.addEventListener("mousedown", function() {
 
 todoAppScreenClose.addEventListener("click", function() {
   closeWindow(todoAppScreen);
+});
+
+todoAppScreenClose.addEventListener("mousedown", function(e) {
+  e.stopPropagation();
 });
 
 renderTodos();
